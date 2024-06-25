@@ -16,6 +16,7 @@ llm = Ollama(
 
 embeddings = HuggingFaceEmbeddings()
 
+
 def get_answer(file_name, query):
     file_path = f"{working_dir}/{file_name}"
     # Loading the document
@@ -23,7 +24,7 @@ def get_answer(file_name, query):
     documents = loader.load()
 
     # Create text chunks
-    text_splitter = CharacterTextSplitter(separator="/n",
+    text_splitter = CharacterTextSplitter(separator="\n",
                                           chunk_size=1000,
                                           chunk_overlap=200)
 
@@ -38,3 +39,8 @@ def get_answer(file_name, query):
     )
 
     response = qa_chain.invoke({"query": query})
+
+    # Debugging: print the response to understand its structure
+    print(response)
+
+    return response.get('result', 'No answer found')
